@@ -1,5 +1,5 @@
 node_modules/
 .env
-credentials.json
+# credentials.json
 token.json
 downloaded_video.mp4
