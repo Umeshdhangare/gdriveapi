@@ -34,7 +34,7 @@ async function downloadFile(authClient, fileId, folderId, res) {
 			});
 
 			response.data.on("end", () => {
-				res.send("Download Complete");
+				res.status(200).send("Download Completed Successfully");
 			});
 
 			response.data.on("error", (err) => {
@@ -42,10 +42,6 @@ async function downloadFile(authClient, fileId, folderId, res) {
 			});
 		}
 	);
-
-	downloadStream.on("error", (err) => {
-		res.status(500).send(`Error fetching from Google Drive: ${err.message}`);
-	});
 }
 
 // API end point for downloading file using folder and file id.
