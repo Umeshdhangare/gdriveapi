@@ -50,7 +50,7 @@ const uploadFile = async (authClient, folderId, res) => {
 						},
 					})
 					.then(() => {
-						// This will only run after uploading of all the chunks
+						// This will only run for the last chunk
 						uploadProgress = (eByte * 100) / fileSize;
 						res.status(200).send("Upload Completed Successfully!");
 					})

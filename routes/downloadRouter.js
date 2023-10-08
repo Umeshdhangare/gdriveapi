@@ -14,7 +14,7 @@ async function downloadFile(authClient, fileId, folderId, res) {
 
 	downloadedBytes = 0;
 	// The stream for downloading the file.
-	const downloadStream = drive.files.get(
+	drive.files.get(
 		{ fileId, alt: "media" },
 		{ responseType: "stream" },
 		(err, response) => {
@@ -44,6 +44,12 @@ async function downloadFile(authClient, fileId, folderId, res) {
 	);
 }
 
+// API to show progress of the download file
+downloadRouter.get("/progress", (req, res) => {
+	const progress = ((downloadedBytes * 100) / fileSize).toFixed(2);
+	res.send(`Download Progress: ${progress}%`);
+});
+
 // API end point for downloading file using folder and file id.
 downloadRouter.get("/:folderId/:fileId", (req, res) => {
 	const fileId = req.params.fileId;
@@ -52,12 +58,6 @@ downloadRouter.get("/:folderId/:fileId", (req, res) => {
 	authorize()
 		.then((client) => downloadFile(client, fileId, folderId, res))
 		.catch(console.error);
-});
-
-// API to show progress of the download file
-downloadRouter.get("/progress", (req, res) => {
-	const progress = ((downloadedBytes * 100) / fileSize).toFixed(2);
-	res.send(`Download Progress: ${progress}%`);
 });
 
 module.exports = downloadRouter;
